@@ -8,3 +8,5 @@ ansible_roles/collections/ansible_collections/tosit/
 RemoveTDP.yml
 inventory/hosts
 Vagrantfile
+*.tar.gz
+*.tgz
