@@ -18,9 +18,15 @@ mkdir -p files
 
 # Quick fix for file lookup related to the Hadoop role refactor (https://github.com/TOSIT-FR/ansible-tdp-roles/pull/57)
 ln -s $PWD/files $TDP_ROLES_PATH/playbooks/files
+ln -s $PWD/files $TDP_ROLES_EXTRA_PATH/playbooks/files
 
-# Copy the default tdp_vars
-[[ -d inventory/tdp_vars ]] || cp -r ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults inventory/tdp_vars
+# Link the default tdp_vars and tdp_extra_vars
+ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults $PWD/inventory/tdp_vars
+ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp-extra/tdp_extra_vars_defaults $PWD/inventory/tdp_extra_vars
+
+# Link to local TDP binary directory (until  we go open source)
+ln -s /home/daniel/Desktop/temp/tdp-getting-started/tdp-binaries/* $PWD/files
+
 
 # Fetch the TDP .tar.gz releases
 wget https://github.com/TOSIT-FR/hadoop/releases/download/hadoop-project-dist-3.1.1-TDP-0.1.0-SNAPSHOT/hadoop-3.1.1-TDP-0.1.0-SNAPSHOT.tar.gz
