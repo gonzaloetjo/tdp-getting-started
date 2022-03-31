@@ -1,12 +1,35 @@
 ---
-- hosts: localhost
-  become: False
-  tasks:
-    - name: Check spark binary exists
-      stat:
-        path: files/spark-2.3.5-TDP-0.1.0-SNAPSHOT-bin-tdp.tgz
-      register: spark_exists
-      failed_when: spark_exists.stat.exists == False
+# - hosts: localhost
+#   become: False
+#   tasks:
+#     - name: Check spark binary exists
+#       stat:
+#         path: files/spark-2.3.5-TDP-0.1.0-SNAPSHOT-bin-tdp.tgz
+#       register: spark_exists
+#       failed_when: spark_exists.stat.exists == False
+#
+# - name: Deploy Spark
+#   import_playbook: ansible_roles/collections/ansible_collections/tosit/tdp/playbooks/spark.yml
 
-- name: Deploy Spark
-  import_playbook: ansible_roles/collections/ansible_collections/tosit/tdp/playbooks/spark.yml
+
+- hosts: localhost
+  gather_facts: no
+  become: no
+  vars:
+    - livy_release: apache-livy-0.7.1-incubating-bin
+    - livy_dist_file: "{{ livy_release }}.zip"
+    - livy_download_link: https://dlcdn.apache.org/incubator/livy/0.7.1-incubating/{{ livy_dist_file }}
+  tasks:
+    - name: Check if livy already in files
+      stat:
+        path: "./files/{{ livy_dist_file }}"
+      register: livy_zip
+
+    - name: Download Livy {{ livy_download_link }}
+      get_url:
+        url: "{{ livy_download_link }}"
+        dest: ./files
+      when: not livy_zip.stat.exists
+
+- name: Deploy Livy
+  import_playbook: ansible_roles/collections/ansible_collections/tosit/tdp/playbooks/livy.yml
