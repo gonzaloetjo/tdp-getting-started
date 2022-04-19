@@ -332,3 +332,6 @@ user_hive_policies:
           - { isAllowed: true, type: Write }
           - { isAllowed: true, type: Refresh }
         conditions: []
+
+# hue
+hue_user: hue
