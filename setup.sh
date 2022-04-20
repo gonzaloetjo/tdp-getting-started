@@ -19,8 +19,19 @@ mkdir -p files
 # Quick fix for file lookup related to the Hadoop role refactor (https://github.com/TOSIT-FR/ansible-tdp-roles/pull/57)
 [[ -d $TDP_ROLES_PATH/playbooks/files ]] || ln -s $PWD/files $TDP_ROLES_PATH/playbooks
 
+<<<<<<< HEAD
 # Copy the default tdp_vars
 [[ -d inventory/tdp_vars ]] || cp -r ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults inventory/tdp_vars
+=======
+<<<<<<< Updated upstream
+# Copy the default tdp_vars
+[[ -d inventory/tdp_vars ]] || cp -r ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults inventory/tdp_vars
+=======
+# Link the default tdp_vars and tdp_extra_vars
+ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults $PWD/inventory/tdp_vars
+ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp-extra/tdp_extra_vars_defaults/* $PWD/inventory/tdp_vars
+>>>>>>> Stashed changes
+>>>>>>> fix(HDFS): add call to jmx exporter playbook
 
 # Read the TDP releases from file
 tdp_release_uris=$(sed -E '/^[[:blank:]]*(#|$)/d; s/#.*//' $PWD/tdp-release-uris)
