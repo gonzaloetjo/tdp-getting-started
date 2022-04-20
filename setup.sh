@@ -7,7 +7,6 @@
 
 TDP_ROLES_PATH=ansible_roles/collections/ansible_collections/tosit/tdp
 TDP_ROLES_EXTRA_PATH=ansible_roles/collections/ansible_collections/tosit/tdp-extra
-LOCAL_TDP_BINARIES_DIR=/home/daniel/Desktop/temp/tdp-getting-started/tdp-binaries
 
 # Create directories
 mkdir -p logs
@@ -20,12 +19,14 @@ mkdir -p files
 # Quick fix for file lookup related to the Hadoop role refactor (https://github.com/TOSIT-FR/ansible-tdp-roles/pull/57)
 [[ -d $TDP_ROLES_PATH/playbooks/files ]] || ln -s $PWD/files $TDP_ROLES_PATH/playbooks
 
+<<<<<<< Updated upstream
+# Copy the default tdp_vars
+[[ -d inventory/tdp_vars ]] || cp -r ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults inventory/tdp_vars
+=======
 # Link the default tdp_vars and tdp_extra_vars
 ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults $PWD/inventory/tdp_vars
 ln -s  $PWD/ansible_roles/collections/ansible_collections/tosit/tdp-extra/tdp_extra_vars_defaults/* $PWD/inventory/tdp_vars
-
-# Link to local TDP binary directory (until  we go open source)
-ln -s $LOCAL_TDP_BINARIES_DIR/* $PWD/files
+>>>>>>> Stashed changes
 
 # Read the TDP releases from file
 tdp_release_uris=$(sed -E '/^[[:blank:]]*(#|$)/d; s/#.*//' $PWD/tdp-release-uris)
