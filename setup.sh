@@ -14,6 +14,7 @@ mkdir -p files
 
 # Quick fix for file lookup related to the Hadoop role refactor (https://github.com/TOSIT-FR/ansible-tdp-roles/pull/57)
 [[ -d $TDP_ROLES_PATH/playbooks/files ]] || ln -s $PWD/files $TDP_ROLES_PATH/playbooks
+[[ -d $TDP_ROLES_EXTRA_PATH/playbooks/files ]] || ln -s $PWD/files $TDP_ROLES_EXTRA_PATH/playbooks
 
 # Copy the default tdp_vars
 [[ -d $PWD/inventory/tdp_vars ]] || cp -r $TDP_ROLES_PATH/tdp_vars_defaults $PWD/inventory/tdp_vars
