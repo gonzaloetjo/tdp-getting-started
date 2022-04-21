@@ -16,7 +16,7 @@ mkdir -p files
 [[ -d $TDP_ROLES_PATH/playbooks/files ]] || ln -s $PWD/files $TDP_ROLES_PATH/playbooks
 
 # Copy the default tdp_vars
-[[ -d inventory/tdp_vars ]] || cp -r ansible_roles/collections/ansible_collections/tosit/tdp/tdp_vars_defaults inventory/tdp_vars
+[[ -d $PWD/inventory/tdp_vars ]] || cp -r $TDP_ROLES_PATH/tdp_vars_defaults $PWD/inventory/tdp_vars
 
 # Read the TDP releases from file
 tdp_release_uris=$(sed -E '/^[[:blank:]]*(#|$)/d; s/#.*//' $PWD/tdp-release-uris)
