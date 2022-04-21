@@ -16,7 +16,7 @@ The below steps will deploy a TDP cluster using the parameters in the `inventory
 The Ansible `host` file and the `Vagrantfile` will both be generated using the `hosts` variable in `inventory/all.yml`.
 
 ```bash
-git clone https://github.com/TOSIT-IO/tdp-getting-started.git
+git clone --recurse-submodules https://github.com/TOSIT-IO/tdp-getting-started.git
 cd tdp-getting-started # Execute all commands from here
 sh ./setup.sh # Setup local env and clone latest tdp-ansible-roles
 cp /path/to/tdp-binaries/* ./files # Copy your tdp-binaries to the ./files directory
