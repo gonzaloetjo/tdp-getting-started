@@ -1,0 +1,6 @@
+[submodule "ansible_roles/collections/ansible_collections/tosit/tdp"]
+	path = ansible_roles/collections/ansible_collections/tosit/tdp
+	url = git@github.com:TOSIT-IO/tdp-collection.git
+[submodule "ansible_roles/collections/ansible_collections/tosit/tdp-extra"]
+	path = ansible_roles/collections/ansible_collections/tosit/tdp-extra
+	url = git@github.com:TOSIT-IO/tdp-collection-extras.git
