@@ -1,0 +1,25 @@
+---
+- hosts: hue_server
+  become: yes
+  tasks:
+    - name: Remove hue installation files
+      file:
+        state: absent
+        path: "{{ item }}"
+      with_items:
+        - /etc/hue
+        - /opt/tdp/hue-release-4.10.0/
+        - /opt/tdp/hue
+        - /etc/security/keytabs/hue.service.keytab
+        - /tmp/krb5cc_1007
+
+    - name: remove hue principal
+      shell: kadmin -r REALM.TDP -p admin/admin -w admin123 -q "delprinc hue/master-02.tdp@REALM.TDP" <<< yes
+
+    - name: remove hue user
+      shell: userdel hue
+      failed_when: no
+
+    - name: remove hue group
+      shell: groupdel hue
+      failed_when: no
