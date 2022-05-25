@@ -27,3 +27,10 @@
       state: present
       backup: yes
 
+- hosts: kdc
+  tasks:
+    - name: Fetch krb5.conf to local files dir from kdc
+      fetch:
+        src: /etc/krb5.conf
+        dest: ./files/
+        flat: yes
