@@ -15,3 +15,15 @@
     - import_role:
         name: ansible_roles/collections/ansible_collections/tosit/tdp_extra/roles/ansible-ldap-kerberos
         tasks_from: install_kerberos_client.yml
+
+- hosts: all
+  become: yes
+  tasks:
+  - name: Ensure renew_lifetime in [libdefaults]
+    lineinfile:
+      dest: "/etc/krb5.conf"
+      line: " renew_lifetime = 99d"
+      insertafter: '^\[libdefaults\]'
+      state: present
+      backup: yes
+
