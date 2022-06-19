@@ -64,9 +64,20 @@ fi
 
 # Copy the default tdp_vars from tdp-collection and tdp-collection-extras
 mkdir -p "$abs_root_dir/inventory/tdp_vars"
-[[ -d "$TDP_ROLES_PATH/tdp_vars_defaults" ]] && cp -rf "$TDP_ROLES_PATH/tdp_vars_defaults/"* "$abs_root_dir/inventory/tdp_vars"
-[[ -d "$TDP_ROLES_EXTRA_PATH/tdp_vars_defaults" ]] && cp -rf "$TDP_ROLES_EXTRA_PATH/tdp_vars_defaults/"* "$abs_root_dir/inventory/tdp_vars"
+# [[ -d "$TDP_ROLES_PATH/tdp_vars_defaults" ]] && cp -rf "$TDP_ROLES_PATH/tdp_vars_defaults/"* "$abs_root_dir/inventory/tdp_vars"
+# [[ -d "$TDP_ROLES_EXTRA_PATH/tdp_vars_defaults" ]] && cp -rf "$TDP_ROLES_EXTRA_PATH/tdp_vars_defaults/"* "$abs_root_dir/inventory/tdp_vars"
 
 # Download tdp release binaries
 tdp_releases="$abs_root_dir/scripts/tdp-release-uris.txt"
 wget -nc -i "$tdp_releases" -P "$abs_root_dir/files"
+
+# Setup tdp-lib env
+SQLITE_PATH="$abs_root_dir/db_data"
+mkdir -p $SQLITE_PATH
+TDP_ENV_FILE="$abs_root_dir/.env"
+cat <<EOF > $TDP_ENV_FILE
+TDP_RUN_DIRECTORY="$abs_root_dir"
+TDP_VARS="$abs_root_dir/inventory/tdp_vars"
+TDP_SQLITE_PATH="$SQLITE_PATH/sqlite.db"
+TDP_COLLECTION_PATH="$TDP_ROLES_PATH:$TDP_ROLES_EXTRA_PATH"
+EOF

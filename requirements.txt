@@ -1,0 +1,4 @@
+ansible==2.9.27
+jmespath==0.10.0
+# apt-get install python3-tk graphviz
+git+https://github.com/TOSIT-IO/tdp-lib@5e3792b#egg=tdp-lib[visualization]
