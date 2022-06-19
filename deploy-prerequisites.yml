@@ -1,0 +1,94 @@
+---
+# deploy vms
+- hosts: localhost
+  become: False
+  tasks:
+    - name: Start VMs in parallel
+      command: "sh ./scripts/vagrant-up-parallel.sh {{num_vagrant_processes}}"
+
+- hosts: all
+  become: yes
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - name: Common setup and configuration accross all ansible hosts
+      import_role:
+        name: ansible-tdp-common-actions
+
+# deploy ca
+- hosts: ca
+  become: yes
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - import_role:
+        name: ansible-ca
+        tasks_from: create-ca-and-certs
+
+- hosts: all
+  become: yes
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - import_role:
+        name: ansible-ca
+        tasks_from: deploy-certs-to-hosts
+
+# deploy ldap kerberos
+
+- hosts: kdc
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - import_role:
+        name: ansible-ldap-kerberos
+
+- hosts: all
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - import_role:
+        name: ansible-ldap-kerberos
+        tasks_from: sssd.yml
+    - import_role:
+        name: ansible-ldap-kerberos
+        tasks_from: install_kerberos_client.yml
+
+
+# deploy postgres
+
+- hosts: postgresql
+  become: yes
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - import_role:
+        name: ansible-role-postgresql
+      tags: pg
+
+# deploy ranger
+
+- hosts: postgresql
+  become: yes
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - name: Setup db and db user for ranger
+      import_role:
+        name: ansible-role-postgresql
+        tasks_from: deploy-ranger-db-requirements
+
+# deploy hive
+
+- name: Prepare postgresql for hive
+  hosts: postgresql
+  become: yes
+  become_user: postgres
+  collections:
+    - tosit.tdp_extra
+  tasks:
+    - include_role:
+        name: ansible-tdp-common-actions
+        tasks_from: deploy-new-postgres-role
+      with_items:
+        - hive

@@ -2,13 +2,30 @@
 
 Launch a fully-featured virtual TDP Hadoop cluster with a single command _or_ customize the infrastructure and components of your cluster with 1 command per component.
 
-- [Requirements](#requirements)
-- [Quick Start](#quick-start)
-- [Web UIs Links](#web-uis-links)
-- [Customised Deployment](#customised-deployment)
-  - [Environment Setup](#environment-setup)
-  - [Configuration files generation](#configuration-files-generation)
-  - [Services Deployment](#services-deployment)
+- [Getting Started with TDP](#getting-started-with-tdp)
+  - [Requirements](#requirements)
+  - [Quick Start](#quick-start)
+  - [Web UIs Links](#web-uis-links)
+  - [Customised Deployment](#customised-deployment)
+    - [Environment Setup](#environment-setup)
+    - [Configuration files generation](#configuration-files-generation)
+    - [Services Deployment](#services-deployment)
+      - [Main playbook](#main-playbook)
+      - [SSH Key Generation and Deployment](#ssh-key-generation-and-deployment)
+      - [Certificate Authority and Certificates](#certificate-authority-and-certificates)
+      - [Kerberos](#kerberos)
+      - [Zookeeper](#zookeeper)
+      - [Launch HDFS, YARN & MapReduce](#launch-hdfs-yarn--mapreduce)
+      - [PostgreSQL](#postgresql)
+      - [Ranger](#ranger)
+      - [Hive](#hive)
+      - [Spark](#spark)
+      - [Spark 3](#spark-3)
+      - [HBase](#hbase)
+      - [Knox](#knox)
+      - [Livy](#livy)
+      - [Create Cluster Users](#create-cluster-users)
+      - [Autostart Cluster Services](#autostart-cluster-services)
 
 ## Requirements
 
@@ -16,6 +33,7 @@ Launch a fully-featured virtual TDP Hadoop cluster with a single command _or_ cu
 - Vagrant >= 2.2.19 (to launch and manage the VMs)
 - VirtualBox >= 6.1.26
 - The Python package `jmespath` (an Ansible dependency for JSON parsing/querying)
+- Linux packages python3-tk and graphviz
 - Unzip (to execute the setup scripts)
 - `jq` required to execute helper script
 
@@ -29,14 +47,24 @@ The Ansible `host` file and the `Vagrantfile` will both be generated using the `
 git clone https://github.com/TOSIT-IO/tdp-getting-started.git
 # Move into project dir
 cd tdp-getting-started
-# Setup local env with stable tdp-collections
-./scripts/setup.sh -r stable
+# Setup python venv
+python3 -m venv venv
+source venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+ansible-galaxy collection install community.general:1.3.10
+# Setup local env with latest tdp-collections
+./scripts/setup.sh -r latest
 # Generate Vagrantfile and ansible hosts file from inventory
 ansible-playbook generate-node-deployment-config.yml
 # Install centos/7 vagrant box
 vagrant box add centos/7 --provider virtualbox
+# Initialize tdp vars and database
+tdp init
+# Deploy TDP pre-requisites
+ansible-playbook deploy-prerequisites.yml
 # Deploy TDP cluster
-ansible-playbook deploy-all.yml
+tdp deploy
 ```
 
 ## Web UIs Links
