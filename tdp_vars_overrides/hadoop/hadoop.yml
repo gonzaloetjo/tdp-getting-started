@@ -2,7 +2,12 @@
 auth_to_local:
   livy:
     - RULE:[2:$1/$2@$0](livy/.*@{{ realm }})s/.*/livy/
+  airflow:
+    - RULE:[2:$1/$2@$0](airflow/.*@{{ realm }})s/.*/airflow/
 
 core_site:
   hadoop.proxyuser.livy.hosts: "*"
   hadoop.proxyuser.livy.groups: "*"
+  hadoop.proxyuser.airflow.hosts: "*"
+  hadoop.proxyuser.airflow.groups: "*" 
+  hadoop.proxyuser.airflow.users: "*"

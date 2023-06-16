@@ -3,7 +3,8 @@
 	url = https://github.com/TOSIT-IO/tdp-collection
 [submodule "ansible_collections/tosit/tdp_extra"]
 	path = ansible_collections/tosit/tdp_extra
-	url = https://github.com/TOSIT-IO/tdp-collection-extras
+	url = https://github.com/gonzaloetjo/tdp-collection-extras.git
+	branch = airflow-integration
 [submodule "tdp-vagrant"]
 	path = tdp-vagrant
 	url = https://github.com/TOSIT-IO/tdp-vagrant.git
