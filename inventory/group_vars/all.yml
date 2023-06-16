@@ -31,6 +31,11 @@ users:
     group: smoke_user
     uid: 1102
     gid: 1102
+  - user: airflow
+    password: airflow123
+    group: airflow
+    uid: 1103
+    gid: 1103
 
 ldap_groups: "{{ users }}"
 ldap_users: "{{ users }}"
