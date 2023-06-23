@@ -1,0 +1,6 @@
+---
+collections:
+  - name: tdp.extra
+    src:  https://github.com/gonzaloetjo/tdp-collection-extras
+    version: 0.0.1 # branch or tag or commit
+

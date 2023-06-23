@@ -1,0 +1,6 @@
+---
+collections:
+  - name: tdp.core
+    src: https://github.com/gonzaloetjo/tdp-collection
+    version: 0.0.1 # branch or tag or commit    
+
